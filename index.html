@@ -1,0 +1,1048 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" typeof="bibo:Document w3p:WD" prefix="bibo: http://purl.org/ontology/bibo/ w3p: http://www.w3.org/2001/02pd/rec54#">
+<head><meta lang="" property="dc:language" content="en">
+    <title>Vehicle Information Access API</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+
+  <style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 {
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #C83500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+@media print {
+    .removeOnSave {
+        display: none;
+    }
+}
+</style><style>/* --- EXAMPLES --- */
+div.example-title {
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.example-title span {
+    text-transform: uppercase;
+}
+aside.example, div.example, div.illegal-example {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+div.illegal-example { color: red }
+div.illegal-example p { color: black }
+aside.example, div.example {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+    border-color: #e0cb52;
+    background: #fcfaee;
+}
+
+aside.example div.example {
+    border-left-width: .1em;
+    border-color: #999;
+    background: #fff;
+}
+aside.example div.example div.example-title {
+    color: #999;
+}
+</style><style>/* HIGHLIGHTS */
+code.prettyprint {
+    color:  inherit;
+}
+
+/* this from google-code-prettify */
+.pln{color:#000}@media screen{.str{color:#080}.kwd{color:#008}.com{color:#800}.typ{color:#606}.lit{color:#066}.pun,.opn,.clo{color:#660}.tag{color:#008}.atn{color:#606}.atv{color:#080}.dec,.var{color:#606}.fun{color:red}}@media print,projection{.str{color:#060}.kwd{color:#006;font-weight:bold}.com{color:#600;font-style:italic}.typ{color:#404;font-weight:bold}.lit{color:#044}.pun,.opn,.clo{color:#440}.tag{color:#006;font-weight:bold}.atn{color:#404}.atv{color:#060}}ol.linenums{margin-top:0;margin-bottom:0}li.L0,li.L1,li.L2,li.L3,li.L5,li.L6,li.L7,li.L8{list-style-type:none}li.L1,li.L3,li.L5,li.L7,li.L9{background:#eee}
+</style><style>/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #90b8de;
+    border-bottom: 1px solid #90b8de;
+    padding:    1em;
+    line-height:    120%;
+}
+
+@media print {
+  pre.idl {
+      white-space: pre-wrap;
+  }
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #90b8de;
+    color:  #fff;
+    font-family:    sans-serif;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID, .idlDictionaryID, .idlCallbackID, .idlEnumID {
+    font-weight:    bold;
+    color:  #005a9c;
+}
+a.idlEnumItem {
+    color:  #000;
+    border-bottom:  1px dotted #ccc;
+    text-decoration: none;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #005a9c;
+}
+
+/*.idlAttribute*/
+.idlAttrType, .idlFieldType, .idlMemberType {
+    color:  #005a9c;
+}
+.idlAttrName, .idlFieldName, .idlMemberName {
+    color:  #ff4500;
+}
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType, .idlCallbackType {
+    color:  #005a9c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlCtor*/
+.idlCtorName {
+    color:  #ff4500;
+}
+.idlCtorName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #005a9c;
+}
+.idlParamName, .idlDefaultValue {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlSectionComment*/
+.idlSectionComment {
+    color: gray;
+}
+
+/*.idlIterable*/
+.idlIterableKeyType, .idlIterableValueType {
+    color:  #005a9c;
+}
+
+/*.idlMaplike*/
+.idlMaplikeKeyType, .idlMaplikeValueType {
+    color:  #005a9c;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #005a9c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #005a9c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants, dl.constructors, dl.fields, dl.dictionary-members {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt, .constructors dt, .fields dt, .dictionary-members dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code, .constructors dt code, .fields dt code, .dictionary-members dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code, .fields dt code, .dictionary-members dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
+    color:  #005a9c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.constructors dt code {
+    background:  #cfc;
+}
+
+.attributes dd, .methods dd, .constants dd, .constructors dd, .fields dd, .dictionary-members dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #90b8de; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #90b8de; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+</style><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/W3C-WD"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--><script id="initialUserConfig" type="application/json">{
+  "specStatus": "ED",
+  "shortName": "vehicle-information-api",
+  "editors": [
+    {
+      "name": "이원석(Wonsuk Lee)",
+      "company": "ETRI",
+      "url": "mailto:wonsuk.lee@etri.re.kr",
+      "companyURL": "http://www.etri.re.kr",
+      "w3cid": 34457
+    },
+    {
+      "name": "Qing An",
+      "company": "Alibaba Group",
+      "url": "mailto:anqing.aq@alibaba-inc.com",
+      "companyURL": "http://www.alibaba.com/",
+      "w3cid": 76701
+    },
+    {
+      "name": "Adam Crofts",
+      "company": "Jaguar Land Rover",
+      "url": "mailto:acrofts1@jaguarlandrover.com",
+      "companyURL": "http://www.jaguarlandrover.com/",
+      "w3cid": 74857
+    },
+    {
+      "name": "Kevin Gavigan",
+      "company": "Jaguar Land Rover",
+      "url": "mailto:kgavigan@jaguarlandrover.com",
+      "companyURL": "http://www.jaguarlandrover.com/",
+      "w3cid": 71411
+    },
+    {
+      "name": "Justin (Jong Seon) Park",
+      "company": "LG Electronics",
+      "url": "mailto:wonsuk.lee@etri.re.kr",
+      "companyURL": "http://www.lg.co.kr/",
+      "w3cid": 51099
+    },
+    {
+      "name": "Kevron Rees (until November 2014)",
+      "company": "Intel",
+      "url": "",
+      "companyURL": "http://www.intel.com/",
+      "w3cid": 61299
+    }
+  ],
+  "edDraftURI": "https://w3c.github.io/automotive/vehicle_data/vehicle_spec.html",
+  "wg": "Automotive Working Group",
+  "otherLinks": [
+    {
+      "key": "Repository and Participation",
+      "data": [
+        {
+          "value": "We are on github.",
+          "href": "https://github.com/w3c/automotive/"
+        },
+        {
+          "value": "File a bug/issue.",
+          "href": "https://github.com/w3c/automotive/issues"
+        },
+        {
+          "value": "Commit history.",
+          "href": "https://github.com/w3c/automotive/commits"
+        },
+        {
+          "value": "Mailing list archive.",
+          "href": "https://lists.w3.org/Archives/Public/public-automotive/"
+        }
+      ]
+    }
+  ],
+  "wgURI": "http://www.w3.org/auto/wg/",
+  "wgPublicList": "public-automotive",
+  "wgPatentURI": "http://www.w3.org/2004/01/pp-impl/76043/status"
+}</script></head>
+
+  <body class="h-entry" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
+  <p>
+
+
+            <a class="logo" href="http://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/Icons/w3c_home" alt="W3C"></a>
+
+
+
+
+  </p>
+  <h1 class="title p-name" id="title" property="dcterms:title">Vehicle Information Access API</h1>
+
+  <h2 id="w3c-working-draft-19-january-2016"><abbr title="World Wide Web Consortium">W3C</abbr> Working Draft <time property="dcterms:issued" class="dt-published" datetime="2016-01-19">19 January 2016</time></h2>
+  <dl>
+
+      <dt>This version:</dt>
+      <dd><a class="u-url" href="http://www.w3.org/TR/2016/WD-vehicle-information-api-20160119/">http://www.w3.org/TR/2016/WD-vehicle-information-api-20160119/</a></dd>
+      <dt>Latest published version:</dt>
+      <dd><a href="http://www.w3.org/TR/vehicle-information-api/">http://www.w3.org/TR/vehicle-information-api/</a></dd>
+
+
+      <dt>Latest editor's draft:</dt>
+      <dd><a href="https://w3c.github.io/automotive/vehicle_data/vehicle_spec.html">https://w3c.github.io/automotive/vehicle_data/vehicle_spec.html</a></dd>
+
+
+
+
+
+
+      <dt>Previous version:</dt>
+      <dd><a rel="dcterms:replaces" href="http://www.w3.org/TR/2015/WD-vehicle-information-api-20150616/">http://www.w3.org/TR/2015/WD-vehicle-information-api-20150616/</a></dd>
+
+
+    <dt>Editors:</dt>
+    <dd class="p-author h-card vcard" property="bibo:editor" resource="_:editor0" data-editor-id="34457"><span property="rdf:first" typeof="foaf:Person"><meta property="foaf:name" content="이원석(Wonsuk Lee)"><a class="u-url url p-name fn" property="foaf:homepage" href="mailto:wonsuk.lee@etri.re.kr">이원석(Wonsuk Lee)</a>, <a property="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.etri.re.kr">ETRI</a></span>
+<span property="rdf:rest" resource="_:editor1"></span>
+</dd>
+<dd class="p-author h-card vcard" resource="_:editor1" data-editor-id="76701"><span property="rdf:first" typeof="foaf:Person"><meta property="foaf:name" content="Qing An"><a class="u-url url p-name fn" property="foaf:homepage" href="mailto:anqing.aq@alibaba-inc.com">Qing An</a>, <a property="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.alibaba.com/">Alibaba Group</a></span>
+<span property="rdf:rest" resource="_:editor2"></span>
+</dd>
+<dd class="p-author h-card vcard" resource="_:editor2" data-editor-id="74857"><span property="rdf:first" typeof="foaf:Person"><meta property="foaf:name" content="Adam Crofts"><a class="u-url url p-name fn" property="foaf:homepage" href="mailto:acrofts1@jaguarlandrover.com">Adam Crofts</a>, <a property="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.jaguarlandrover.com/">Jaguar Land Rover</a></span>
+<span property="rdf:rest" resource="_:editor3"></span>
+</dd>
+<dd class="p-author h-card vcard" resource="_:editor3" data-editor-id="71411"><span property="rdf:first" typeof="foaf:Person"><meta property="foaf:name" content="Kevin Gavigan"><a class="u-url url p-name fn" property="foaf:homepage" href="mailto:kgavigan@jaguarlandrover.com">Kevin Gavigan</a>, <a property="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.jaguarlandrover.com/">Jaguar Land Rover</a></span>
+<span property="rdf:rest" resource="_:editor4"></span>
+</dd>
+<dd class="p-author h-card vcard" resource="_:editor4" data-editor-id="51099"><span property="rdf:first" typeof="foaf:Person"><meta property="foaf:name" content="Justin (Jong Seon) Park"><a class="u-url url p-name fn" property="foaf:homepage" href="mailto:wonsuk.lee@etri.re.kr">Justin (Jong Seon) Park</a>, <a property="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.lg.co.kr/">LG Electronics</a></span>
+<span property="rdf:rest" resource="_:editor5"></span>
+</dd>
+<dd class="p-author h-card vcard" resource="_:editor5" data-editor-id="61299"><span property="rdf:first" typeof="foaf:Person"><span property="foaf:name" class="p-name fn">Kevron Rees (until November 2014)</span>, <a property="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.intel.com/">Intel</a></span>
+<span property="rdf:rest" resource="rdf:nil"></span>
+</dd>
+
+
+
+
+
+          <dt>Repository and Participation:</dt>
+
+
+
+                  <dd>
+                    <a href="https://github.com/w3c/automotive/">
+                      We are on github.
+                    </a>
+                  </dd>
+
+
+
+                  <dd>
+                    <a href="https://github.com/w3c/automotive/issues">
+                      File a bug/issue.
+                    </a>
+                  </dd>
+
+
+
+                  <dd>
+                    <a href="https://github.com/w3c/automotive/commits">
+                      Commit history.
+                    </a>
+                  </dd>
+
+
+
+                  <dd>
+                    <a href="https://lists.w3.org/Archives/Public/public-automotive/">
+                      Mailing list archive.
+                    </a>
+                  </dd>
+
+
+
+
+
+
+  </dl>
+
+
+
+
+
+      <p class="copyright">
+        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> ©
+        2016
+
+        <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup>
+        (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>,
+        <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>,
+        <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>).
+
+        <abbr title="World Wide Web Consortium">W3C</abbr> <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and
+
+
+            <a rel="license" href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a>
+
+
+        rules apply.
+      </p>
+
+
+  <hr title="Separator for header">
+</div>
+
+
+<!-- Abstract -->
+<section id="abstract" class="introductory" property="dc:abstract"><h2 id="h-abstract" resource="#h-abstract"><span property="xhv:role" resource="xhv:heading">Abstract</span></h2>
+  <p>
+  The <abbr title="World Wide Web Consortium">W3C</abbr> Vehicle Information API aims to enable connectivity through in-vehicle infotainment systems and vehicle data access protocols. This API can also be leveraged by web applications running on mobile devices that access the data resources of a connected passenger vehicle.</p>
+  <p>
+  This specification does not dictate or describe the access protocol or transport method used for the data connection. Data may come from numerous sources, e.g. OBD-II, MOST, CAN and LIN. Bluetooth, WiFi, or cloud connections are all possible.</p>
+  <p>
+  The purpose of this specification is to promote an API that enables application development in a consistent manner across participating automotive manufacturers. It is recognized, however, that the mechanisms required for access or control of vehicle Properties may differ between automobile manufacturers, makes and models. Furthermore, different automobile manufacturers can expose different Properties that can be read or set by an application.</p>
+  <p>
+  As a result of these constraints, this specification shall allow for automobile manufacturer-specific extensions or restrictions. Extensions are only permitted for interfaces that are not already described by this API, and must be implemented to conform within the format and guidelines existing in this specification. If a Property is restricted, the automobile manufacturer would omit the optional feature in their implementation (see the <a href="#idl-def-Availability" class="idlType"><code>Availability</code></a> Section).
+  </p>
+  <p>
+  The target platform supported by the specification is exclusively passenger vehicles. Use of this specification for non-passenger applications, e.g. transportation, heavy machinery, marine, airline infotainment, military, is not prohibited, but is not covered in the design or content of the API and therefore may be insufficient.
+  </p>
+  <p>
+  Initially, a typical use case of Vehicle Information might be the implementation of a 'Virtual Mechanic' application that provides vehicle status information such as tire pressure, engine oil level, washer fluid level or battery status. Future use case innovations in transportation, safety, navigation, smart energy grid and consumer infotainment and customization are all possible through this specification.
+  </p>
+  <p>
+  Web developers building interoperable applications based upon this API, will help empower a common web platform across consumer devices and passenger vehicles consistent with the Web of Things.
+  </p>
+
+</section><section id="sotd" class="introductory"><h2 id="h-sotd" resource="#h-sotd"><span property="xhv:role" resource="xhv:heading">Status of This Document</span></h2>
+
+
+
+        <p>
+          <em>This section describes the status of this document at the time of its publication. Other documents may supersede this document. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the latest revision of this technical report can be found in the <a href="http://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports index</a> at http://www.w3.org/TR/.</em>
+        </p>
+
+
+
+
+
+          <p>
+            This document was published by the <a href="http://www.w3.org/auto/wg/">Automotive Working Group</a> as a Working Draft.
+
+              This document is intended to become a <abbr title="World Wide Web Consortium">W3C</abbr> Recommendation.
+
+
+              If you wish to make comments regarding this document, please send them to
+              <a href="mailto:public-automotive@w3.org">public-automotive@w3.org</a>
+              (<a href="mailto:public-automotive-request@w3.org?subject=subscribe">subscribe</a>,
+              <a href="http://lists.w3.org/Archives/Public/public-automotive/">archives</a>).
+
+
+
+
+
+
+              All comments are welcome.
+
+
+          </p>
+
+
+
+            <p>
+              Publication as a Working Draft does not imply endorsement by the <abbr title="World Wide Web Consortium">W3C</abbr>
+              Membership. This is a draft document and may be updated, replaced or obsoleted by other
+              documents at any time. It is inappropriate to cite this document as other than work in
+              progress.
+            </p>
+
+
+
+          <p>
+
+              This document was produced by
+
+              a group
+               operating under the
+              <a id="sotd_patent" property="w3p:patentRules" href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 <abbr title="World Wide Web Consortium">W3C</abbr> Patent
+              Policy</a>.
+
+
+
+
+                <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="http://www.w3.org/2004/01/pp-impl/76043/status" rel="disclosure">public list of any patent
+                disclosures</a>
+
+              made in connection with the deliverables of
+
+              the group; that page also includes
+
+              instructions for disclosing a patent. An individual who has actual knowledge of a patent
+              which the individual believes contains
+              <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential
+              Claim(s)</a> must disclose the information in accordance with
+              <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
+              6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+
+
+          </p>
+
+            <p>This document is governed by the <a id="w3c_process_revision" href="http://www.w3.org/2015/Process-20150901/">1 September 2015 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
+            </p>
+
+
+
+
+
+
+</section><section id="toc"><h2 class="introductory" id="h-toc" resource="#h-toc"><span property="xhv:role" resource="xhv:heading">Table of Contents</span></h2><ul class="toc" role="directory"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a href="#conformance" class="tocxref"><span class="secno">2. </span>Conformance</a></li><li class="tocline"><a href="#terminology" class="tocxref"><span class="secno">3. </span>Terminology</a></li><li class="tocline"><a href="#security" class="tocxref"><span class="secno">4. </span>Security and privacy considerations</a></li><li class="tocline"><a href="#navigator-interface" class="tocxref"><span class="secno">5. </span><span class="formerLink"><code>Navigator</code></span> Interface</a><ul class="toc"><li class="tocline"><a href="#attributes" class="tocxref"><span class="secno">5.1 </span>Attributes</a></li></ul></li><li class="tocline"><a href="#vehicle-interface" class="tocxref"><span class="secno">6. </span><span class="formerLink"><code>Vehicle</code></span> Interface</a></li><li class="tocline"><a href="#zone-interface" class="tocxref"><span class="secno">7. </span><span class="formerLink"><code>Zone</code></span> Interface</a><ul class="toc"><li class="tocline"><a href="#attributes-1" class="tocxref"><span class="secno">7.1 </span>Attributes</a></li><li class="tocline"><a href="#methods" class="tocxref"><span class="secno">7.2 </span>Methods</a></li></ul></li><li class="tocline"><a href="#vehicleinterfacecallback-callback" class="tocxref"><span class="secno">8. </span><span class="formerLink"><code>VehicleInterfaceCallback</code></span> Callback</a></li><li class="tocline"><a href="#availablecallback-callback" class="tocxref"><span class="secno">9. </span><span class="formerLink"><code>AvailableCallback</code></span> Callback</a></li><li class="tocline"><a href="#vehicleinterfaceerror-interface" class="tocxref"><span class="secno">10. </span><span class="formerLink"><code>VehicleInterfaceError</code></span> Interface</a><ul class="toc"><li class="tocline"><a href="#attributes-2" class="tocxref"><span class="secno">10.1 </span>Attributes</a></li></ul></li><li class="tocline"><a href="#vehicleinterface-interface" class="tocxref"><span class="secno">11. </span><span class="formerLink"><code>VehicleInterface</code></span> Interface</a><ul class="toc"><li class="tocline"><a href="#attributes-3" class="tocxref"><span class="secno">11.1 </span>Attributes</a></li><li class="tocline"><a href="#methods-1" class="tocxref"><span class="secno">11.2 </span>Methods</a></li></ul></li><li class="tocline"><a href="#vehicleconfigurationinterface-interface" class="tocxref"><span class="secno">12. </span><span class="formerLink"><code>VehicleConfigurationInterface</code></span> Interface</a></li><li class="tocline"><a href="#vehiclesignalinterface-interface" class="tocxref"><span class="secno">13. </span><span class="formerLink"><code>VehicleSignalInterface</code></span> Interface</a><ul class="toc"><li class="tocline"><a href="#methods-2" class="tocxref"><span class="secno">13.1 </span>Methods</a></li></ul></li><li class="tocline"><a href="#data-availability" class="tocxref"><span class="secno">14. </span>Data Availability</a><ul class="toc"><li class="tocline"><a href="#attributes-4" class="tocxref"><span class="secno">14.1 </span>Attributes</a></li><li class="tocline"><a href="#methods-3" class="tocxref"><span class="secno">14.2 </span>Methods</a></li><li class="tocline"><a href="#methods-4" class="tocxref"><span class="secno">14.3 </span>Methods</a></li></ul></li><li class="tocline"><a href="#history" class="tocxref"><span class="secno">15. </span>History</a><ul class="toc"><li class="tocline"><a href="#attributes-5" class="tocxref"><span class="secno">15.1 </span>Attributes</a></li><li class="tocline"><a href="#attributes-6" class="tocxref"><span class="secno">15.2 </span>Attributes</a></li><li class="tocline"><a href="#attributes-7" class="tocxref"><span class="secno">15.3 </span>Attributes</a></li><li class="tocline"><a href="#methods-5" class="tocxref"><span class="secno">15.4 </span>Methods</a></li></ul></li><li class="tocline"><a href="#use-cases" class="tocxref"><span class="secno">16. </span>Use-Cases</a><ul class="toc"></ul></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li></ul></li></ul></section>
+
+<!-- Status of this document -->
+
+
+<!-- Introduction -->
+<section class="informative" id="introduction" typeof="bibo:Chapter" resource="#introduction" property="bibo:hasPart">
+  <!--OddPage--><h2 id="h-introduction" resource="#h-introduction"><span property="xhv:role" resource="xhv:heading"><span class="secno">1. </span>Introduction</span></h2><p><em>This section is non-normative.</em></p>
+  <p>
+    The Vehicle Information API provides operations to get access to the vehicle data
+    (henceforth "properties") available from vehicle systems and also to change (write) a number of
+    properties.  Vehicle data types are available in the <a href="http://www.w3.org/TR/vehicle-data/">Vehicle Data specification</a>.
+  </p><p>
+    An example of use is provided below:
+
+  </p><div class="example"><div class="example-title"><span>Example 1</span></div><pre class="example highlight prettyprint prettyprinted" style=""><span class="kwd">var</span><span class="pln"> vehicle </span><span class="pun">=</span><span class="pln"> navigator</span><span class="pun">.</span><span class="pln">vehicle</span><span class="pun">;</span><span class="pln">
+
+vehicle</span><span class="pun">.</span><span class="pln">vehicleSpeed</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">().</span><span class="kwd">then</span><span class="pun">(</span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">vehicleSpeed</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="str">"Vehicle speed: "</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> vehicleSpeed</span><span class="pun">.</span><span class="pln">speed</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">},</span><span class="pln">
+</span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">error</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="str">"There was an error"</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">});</span><span class="pln">
+
+</span><span class="kwd">var</span><span class="pln"> vehicleSpeedSub </span><span class="pun">=</span><span class="pln"> vehicle</span><span class="pun">.</span><span class="pln">vehicleSpeed</span><span class="pun">.</span><span class="pln">subscribe</span><span class="pun">(</span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">vehicleSpeed</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="str">"Vehicle speed changed to: "</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> vehicleSpeed</span><span class="pun">.</span><span class="pln">speed</span><span class="pun">);</span><span class="pln">
+  vehicle</span><span class="pun">.</span><span class="pln">vehicleSpeed</span><span class="pun">.</span><span class="pln">unsubscribe</span><span class="pun">(</span><span class="pln">vehicleSpeedSub</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">});</span><span class="pln">
+
+</span><span class="kwd">var</span><span class="pln"> zone </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Zone</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">var</span><span class="pln"> zones </span><span class="pun">=</span><span class="pln"> vehicle</span><span class="pun">.</span><span class="pln">climateControl</span><span class="pun">.</span><span class="pln">zones</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">var</span><span class="pln"> i </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> zone</span><span class="pun">;</span><span class="pln"> zone </span><span class="pun">=</span><span class="pln"> zones</span><span class="pun">[</span><span class="pln">i</span><span class="pun">];</span><span class="pln"> i</span><span class="pun">++)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">i</span><span class="pun">.</span><span class="pln">equals</span><span class="pun">(</span><span class="pln">zone</span><span class="pun">.</span><span class="pln">driver</span><span class="pun">))</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">var</span><span class="pln"> value </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{};</span><span class="pln">
+    value</span><span class="pun">[</span><span class="str">"acStatus"</span><span class="pun">]</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">true</span><span class="pun">;</span><span class="pln">
+    vehicle</span><span class="pun">.</span><span class="pln">climateControl</span><span class="pun">.</span><span class="kwd">set</span><span class="pun">(</span><span class="pln">value</span><span class="pun">,</span><span class="pln"> zone</span><span class="pun">.</span><span class="pln">driver</span><span class="pun">).</span><span class="kwd">then</span><span class="pun">(</span><span class="kwd">function</span><span class="pln"> </span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="str">"Successfully set acStatus"</span><span class="pun">);</span><span class="pln">
+    </span><span class="pun">},</span><span class="pln">
+    </span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">error</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="str">"There was an error"</span><span class="pun">);</span><span class="pln">
+    </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></pre></div>
+</section>
+
+<!-- Conformance -->
+<section id="conformance" typeof="bibo:Chapter" resource="#conformance" property="bibo:hasPart"><!--OddPage--><h2 id="h-conformance" resource="#h-conformance"><span property="xhv:role" resource="xhv:heading"><span class="secno">2. </span>Conformance</span></h2>
+<p>
+  As well as sections marked as non-normative, all authoring guidelines, diagrams, examples,
+  and notes in this specification are non-normative. Everything else in this specification is
+  normative.
+</p>
+<p id="respecRFC2119">The key words <em class="rfc2119" title="MUST">MUST</em> and <em class="rfc2119" title="OPTIONAL">OPTIONAL</em> are
+  to be interpreted as described in [<cite><a class="bibref" href="#bib-RFC2119">RFC2119</a></cite>].
+</p>
+
+  <p>This specification defines conformance criteria that apply to a single
+  product: the <dfn data-dfn-type="dfn" id="dfn-user-agent">user agent</dfn> that implements the interfaces that it
+  contains.
+
+  </p><p>Implementations that use ECMAScript to implement the APIs defined in this
+  specification <em class="rfc2119" title="MUST">MUST</em> implement them in a manner consistent with the ECMAScript
+  Bindings defined in the Web IDL specification [<cite><a class="bibref" href="#bib-WEBIDL">WEBIDL</a></cite>], as this
+  specification uses that specification and terminology.
+</p></section>
+
+<!-- Terminology -->
+<section id="terminology" typeof="bibo:Chapter" resource="#terminology" property="bibo:hasPart">
+  <!--OddPage--><h2 id="h-terminology" resource="#h-terminology"><span property="xhv:role" resource="xhv:heading"><span class="secno">3. </span>Terminology</span></h2> <p>The <code><a href="http://www.w3.org/TR/2013/WD-dom-20131107/#promises">
+  Promise</a></code> provide a convenient way to get access to the result of an operation.</p>
+</section>
+
+<!-- Security and privacy -->
+<section id="security" typeof="bibo:Chapter" resource="#security" property="bibo:hasPart">
+      <!--OddPage--><h2 id="h-security" resource="#h-security"><span property="xhv:role" resource="xhv:heading"><span class="secno">4. </span>Security and privacy considerations</span></h2>
+
+<p>
+  It is expected that security of vehicle APIs described in this document is based on permissions dictated by:
+</p>
+ <ul>
+  <li>The JavaScript runtime under which the APIs are used – in some cases</li>
+  <li>The underlying operating system – always</li>
+</ul>
+
+  <p>No separate permission or access control model will be defined for vehicle APIs. Depending on a specific platform, the user agent used may have to provide tools to generate permissions for application descriptors as required by the OS. Android is an example under which such a descriptor (Android app manifest) has to be generated if the runtime maps its apps to OS-level apps.
+</p>
+
+</section>
+
+<!-- Extended interface Navigator -->
+<section id="navigator-interface" typeof="bibo:Chapter" resource="#navigator-interface" property="bibo:hasPart">
+  <!--OddPage--><h2 id="h-navigator-interface" resource="#h-navigator-interface"><span property="xhv:role" resource="xhv:heading"><span class="secno">5. </span><a href="#idl-def-Navigator" class="idlType"><code>Navigator</code></a> Interface</span></h2>
+    <pre class="idl"><span class="idlInterface" id="idl-def-Navigator">partial interface <span class="idlInterfaceID">Navigator</span> {
+<span class="idlAttribute">    readonly        attribute <span class="idlAttrType"><a href="#idl-def-Vehicle" class="idlType"><code>Vehicle</code></a></span> <span class="idlAttrName"><a href="#widl-Navigator-vehicle">vehicle</a></span>;</span>
+};</span></pre><section id="attributes" typeof="bibo:Chapter" resource="#attributes" property="bibo:hasPart"><h3 id="h-attributes" resource="#h-attributes"><span property="xhv:role" resource="xhv:heading"><span class="secno">5.1 </span>Attributes</span></h3><dl class="attributes"><dt id="widl-Navigator-vehicle"><code>vehicle</code> of type <span class="idlAttrType"><a href="#idl-def-Vehicle" class="idlType"><code>Vehicle</code></a></span>, readonly       </dt><dd>The object that exposes the interface to vehicle information services.</dd></dl></section>
+</section>
+
+<!-- Interface Vehicle -->
+<section id="vehicle-interface" typeof="bibo:Chapter" resource="#vehicle-interface" property="bibo:hasPart">
+  <!--OddPage--><h2 id="h-vehicle-interface" resource="#h-vehicle-interface"><span property="xhv:role" resource="xhv:heading"><span class="secno">6. </span><a href="#idl-def-Vehicle" class="idlType"><code>Vehicle</code></a> Interface</span></h2> <p>The <a href="#idl-def-Vehicle" class="idlType"><code>Vehicle</code></a> interface
+  represents the initial entry point for getting access to the vehicle information
+  services, i.e. Engine Speed and Tire Pressure. </p>
+  <pre class="idl"><span class="idlInterface" id="idl-def-Vehicle">[<span class="extAttr">NoInterfaceObject</span>]
+interface <span class="idlInterfaceID">Vehicle</span> {
+};</span></pre>
+</section>
+
+<!-- Interface Zone -->
+<section id="zone-interface" typeof="bibo:Chapter" resource="#zone-interface" property="bibo:hasPart">
+  <!--OddPage--><h2 id="h-zone-interface" resource="#h-zone-interface"><span property="xhv:role" resource="xhv:heading"><span class="secno">7. </span><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a> Interface</span></h2> <p>The <a href="#idl-def-Zone" class="idlType"><code>Zone</code></a>
+  interface contains the constants that represent physical zones and logical zones</p>
+
+  <pre class="idl"><span class="idlEnum" id="idl-def-ZonePosition">enum <span class="idlEnumID">ZonePosition</span> {
+    "<a href="#idl-def-ZonePosition.front" class="idlEnumItem">front</a>",
+    "<a href="#idl-def-ZonePosition.center" class="idlEnumItem">center</a>",
+    "<a href="#idl-def-ZonePosition.rear" class="idlEnumItem">rear</a>",
+    "<a href="#idl-def-ZonePosition.left" class="idlEnumItem">left</a>",
+    "<a href="#idl-def-ZonePosition.middle" class="idlEnumItem">middle</a>",
+    "<a href="#idl-def-ZonePosition.right" class="idlEnumItem">right</a>",
+    "<a href="#idl-def-ZonePosition.top" class="idlEnumItem">top</a>",
+    "<a href="#idl-def-ZonePosition.central" class="idlEnumItem">central</a>",
+    "<a href="#idl-def-ZonePosition.bottom" class="idlEnumItem">bottom</a>"
+};</span></pre><table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr><tr><td><code id="idl-def-ZonePosition.front">front</code></td><td>the front of the vehicle in the longitudinal-axis.</td></tr><tr><td><code id="idl-def-ZonePosition.center">center</code></td><td>the center of the vehicle in the longitudinal-axis.</td></tr><tr><td><code id="idl-def-ZonePosition.rear">rear</code></td><td>the rear of the vehicle in the longitudinal-axis.</td></tr><tr><td><code id="idl-def-ZonePosition.left">left</code></td><td>the left side of the vehicle in the horizontal-axis.</td></tr><tr><td><code id="idl-def-ZonePosition.middle">middle</code></td><td>the middle of the vehicle in the horizontal-axis.</td></tr><tr><td><code id="idl-def-ZonePosition.right">right</code></td><td>the right side of the vehicle in the horizontal-axis.</td></tr><tr><td><code id="idl-def-ZonePosition.top">top</code></td><td>the top layer of the vehicle in the vertical-axis.</td></tr><tr><td><code id="idl-def-ZonePosition.central">central</code></td><td>the central layer of the vehicle in the vertical-axis.</td></tr><tr><td><code id="idl-def-ZonePosition.bottom">bottom</code></td><td>the bottom layer of the vehicle in the vertical-axis.</td></tr></tbody></table>
+
+  <pre class="idl"><span class="idlInterface" id="idl-def-Zone">interface <span class="idlInterfaceID">Zone</span> {
+<span class="idlAttribute">                    attribute <span class="idlAttrType"><a href="#idl-def-ZonePosition" class="idlType"><code>ZonePosition</code></a>[]</span> <span class="idlAttrName"><a href="#widl-Zone-value">value</a></span>;</span>
+<span class="idlAttribute">    readonly        attribute <span class="idlAttrType"><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></span>           <span class="idlAttrName"><a href="#widl-Zone-driver">driver</a></span>;</span>
+<span class="idlMethod">    <span class="idlMethType">boolean</span> <span class="idlMethName"><a href="#widl-Zone-equals-boolean-Zone-zone">equals</a></span> (<span class="idlParam"><span class="idlParamType"><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></span> <span class="idlParamName">zone</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">boolean</span> <span class="idlMethName"><a href="#widl-Zone-contains-boolean-Zone-zone">contains</a></span> (<span class="idlParam"><span class="idlParamType"><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></span> <span class="idlParamName">zone</span></span>);</span>
+};</span></pre><section id="attributes-1" typeof="bibo:Chapter" resource="#attributes-1" property="bibo:hasPart"><h3 id="h-attributes-1" resource="#h-attributes-1"><span property="xhv:role" resource="xhv:heading"><span class="secno">7.1 </span>Attributes</span></h3><dl class="attributes"><dt id="widl-Zone-driver"><code>driver</code> of type <span class="idlAttrType"><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></span>, readonly       </dt><dd><em class="rfc2119" title="MUST">MUST</em> return physical zone for logical driver</dd><dt id="widl-Zone-value"><code>value</code> of type array of <span class="idlAttrType"><a href="#idl-def-ZonePosition" class="idlType"><code>ZonePosition</code></a></span></dt><dd><em class="rfc2119" title="MUST">MUST</em> return array of physical zones</dd></dl></section><section id="methods" typeof="bibo:Chapter" resource="#methods" property="bibo:hasPart"><h3 id="h-methods" resource="#h-methods"><span property="xhv:role" resource="xhv:heading"><span class="secno">7.2 </span>Methods</span></h3><dl class="methods"><dt id="widl-Zone-contains-boolean-Zone-zone"><code>contains</code></dt><dd><em class="rfc2119" title="MUST">MUST</em> return true if zone.value can be found within this.value<table class="parameters"><tbody><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">zone</td><td class="prmType"><code><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr></tbody></table><div><em>Return type: </em><code>boolean</code></div></dd><dt id="widl-Zone-equals-boolean-Zone-zone"><code>equals</code></dt><dd><em class="rfc2119" title="MUST">MUST</em> return true if zone.value matches the contents of this.value.
+    Ordering of elements within Zone.value does not matter.<table class="parameters"><tbody><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">zone</td><td class="prmType"><code><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr></tbody></table><div><em>Return type: </em><code>boolean</code></div></dd></dl></section>
+</section>
+
+<!-- Callback VehicleInterfaceCallback-->
+<section id="vehicleinterfacecallback-callback" typeof="bibo:Chapter" resource="#vehicleinterfacecallback-callback" property="bibo:hasPart">
+  <!--OddPage--><h2 id="h-vehicleinterfacecallback-callback" resource="#h-vehicleinterfacecallback-callback"><span property="xhv:role" resource="xhv:heading"><span class="secno">8. </span><a href="#idl-def-VehicleInterfaceCallback" class="idlType"><code>VehicleInterfaceCallback</code></a> Callback</span></h2>
+  <p>The <a href="#idl-def-VehicleInterfaceCallback" class="idlType"><code>VehicleInterfaceCallback</code></a> </p>
+  <pre class="idl"><span class="idlCallback" id="idl-def-VehicleInterfaceCallback">callback <span class="idlCallbackID">VehicleInterfaceCallback</span> = <span class="idlCallbackType">void (Object value)</span> ();</span></pre>
+</section>
+
+<!-- Callback AvailableCallback-->
+<section id="availablecallback-callback" typeof="bibo:Chapter" resource="#availablecallback-callback" property="bibo:hasPart">
+  <!--OddPage--><h2 id="h-availablecallback-callback" resource="#h-availablecallback-callback"><span property="xhv:role" resource="xhv:heading"><span class="secno">9. </span><a href="#idl-def-AvailableCallback" class="idlType"><code>AvailableCallback</code></a> Callback</span></h2>
+  <p>The <a href="#idl-def-AvailableCallback" class="idlType"><code>AvailableCallback</code></a> </p>
+  <pre class="idl"><span class="idlCallback" id="idl-def-AvailableCallback">callback <span class="idlCallbackID">AvailableCallback</span> = <span class="idlCallbackType">void (Availability available)</span> ();</span></pre>
+</section>
+
+<!-- Interface VehicleInterfaceError -->
+
+<section id="vehicleinterfaceerror-interface" typeof="bibo:Chapter" resource="#vehicleinterfaceerror-interface" property="bibo:hasPart">
+   <!--OddPage--><h2 id="h-vehicleinterfaceerror-interface" resource="#h-vehicleinterfaceerror-interface"><span property="xhv:role" resource="xhv:heading"><span class="secno">10. </span><a href="#idl-def-VehicleInterfaceError" class="idlType"><code>VehicleInterfaceError</code></a> Interface</span></h2>
+   <p>VehicleInterfaceError is used to identify the type of error encountered during an operation</p>
+
+   <pre class="idl"><span class="idlEnum" id="idl-def-VehicleError">enum <span class="idlEnumID">VehicleError</span> {
+    "<a href="#idl-def-VehicleError.permission_denied" class="idlEnumItem">permission_denied</a>",
+    "<a href="#idl-def-VehicleError.invalid_operation" class="idlEnumItem">invalid_operation</a>",
+    "<a href="#idl-def-VehicleError.timeout" class="idlEnumItem">timeout</a>",
+    "<a href="#idl-def-VehicleError.invalid_zone" class="idlEnumItem">invalid_zone</a>",
+    "<a href="#idl-def-VehicleError.unknown" class="idlEnumItem">unknown</a>"
+};</span></pre><table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr><tr><td><code id="idl-def-VehicleError.permission_denied">permission_denied</code></td><td>Indicates that the user does not have permission to perform the operation. More details can be obtained through the <a href="#data-availability">Data Availability</a> API.</td></tr><tr><td><code id="idl-def-VehicleError.invalid_operation">invalid_operation</code></td><td>Indicates that the operation is not valid.  This can be because it isn't supported or has invalid arguments</td></tr><tr><td><code id="idl-def-VehicleError.timeout">timeout</code></td><td>Operation timed out.  Timeout length depends upon the implementation</td></tr><tr><td><code id="idl-def-VehicleError.invalid_zone">invalid_zone</code></td><td>Indicates the zone argument is not valid</td></tr><tr><td><code id="idl-def-VehicleError.unknown">unknown</code></td><td>Indicates an error that is not known</td></tr></tbody></table>
+
+   <pre class="idl"><span class="idlInterface" id="idl-def-VehicleInterfaceError">[<span class="extAttr">NoInterfaceObject</span>]
+interface <span class="idlInterfaceID">VehicleInterfaceError</span> {
+<span class="idlAttribute">    readonly        attribute <span class="idlAttrType"><a href="#idl-def-VehicleError" class="idlType"><code>VehicleError</code></a></span> <span class="idlAttrName"><a href="#widl-VehicleInterfaceError-error">error</a></span>;</span>
+<span class="idlAttribute">    readonly        attribute <span class="idlAttrType">DOMString</span>    <span class="idlAttrName"><a href="#widl-VehicleInterfaceError-message">message</a></span>;</span>
+};</span></pre><section id="attributes-2" typeof="bibo:Chapter" resource="#attributes-2" property="bibo:hasPart"><h3 id="h-attributes-2" resource="#h-attributes-2"><span property="xhv:role" resource="xhv:heading"><span class="secno">10.1 </span>Attributes</span></h3><dl class="attributes"><dt id="widl-VehicleInterfaceError-error"><code>error</code> of type <span class="idlAttrType"><a href="#idl-def-VehicleError" class="idlType"><code>VehicleError</code></a></span>, readonly       </dt><dd><em class="rfc2119" title="MUST">MUST</em> return VehicleError</dd><dt id="widl-VehicleInterfaceError-message"><code>message</code> of type <span class="idlAttrType">DOMString</span>, readonly       </dt><dd><em class="rfc2119" title="MUST">MUST</em> return an error message describing the details of the error encountered. This is primarily intended for debugging and developers should not use it directly in their application user interface</dd></dl></section>
+</section>
+
+<!-- Interface VehicleInterface -->
+<section id="vehicleinterface-interface" typeof="bibo:Chapter" resource="#vehicleinterface-interface" property="bibo:hasPart">
+  <!--OddPage--><h2 id="h-vehicleinterface-interface" resource="#h-vehicleinterface-interface"><span property="xhv:role" resource="xhv:heading"><span class="secno">11. </span><a href="#idl-def-VehicleInterface" class="idlType"><code>VehicleInterface</code></a> Interface</span></h2> <p>The <a href="#idl-def-VehicleInterface" class="idlType"><code>VehicleInterface</code></a>
+  interface represents the base interface to get all vehicle properties.</p>
+
+  <pre class="idl"><span class="idlInterface" id="idl-def-VehicleInterface">interface <span class="idlInterfaceID">VehicleInterface</span> {
+<span class="idlMethod">    <span class="idlMethType">Promise</span> <span class="idlMethName"><a href="#widl-VehicleInterface-get-Promise-Zone-zone">get</a></span> (<span class="idlParam">optional <span class="idlParamType"><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></span> <span class="idlParamName">zone</span></span>);</span>
+<span class="idlAttribute">    readonly        attribute <span class="idlAttrType"><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a>[]</span> <span class="idlAttrName"><a href="#widl-VehicleInterface-zones">zones</a></span>;</span>
+};</span></pre><section id="attributes-3" typeof="bibo:Chapter" resource="#attributes-3" property="bibo:hasPart"><h3 id="h-attributes-3" resource="#h-attributes-3"><span property="xhv:role" resource="xhv:heading"><span class="secno">11.1 </span>Attributes</span></h3><dl class="attributes"><dt id="widl-VehicleInterface-zones"><code>zones</code> of type array of <span class="idlAttrType"><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></span>, readonly       </dt><dd><em class="rfc2119" title="MUST">MUST</em> return all zones supported for this type.</dd></dl></section><section id="methods-1" typeof="bibo:Chapter" resource="#methods-1" property="bibo:hasPart"><h3 id="h-methods-1" resource="#h-methods-1"><span property="xhv:role" resource="xhv:heading"><span class="secno">11.2 </span>Methods</span></h3><dl class="methods"><dt id="widl-VehicleInterface-get-Promise-Zone-zone"><code>get</code></dt><dd><em class="rfc2119" title="MUST">MUST</em> return the <a href="http://www.w3.org/TR/2013/WD-dom-20131107/#promises">Promise</a>.  The "resolve" callback in the promise is used to pass the vehicle data type that corresponds to the specific VehicleInterface instance.
+    For example, "vehicle.vehicleSpeed" corresponds to the "VehicleSpeed" data type.  <a href="#idl-def-VehicleInterfaceError" class="idlType"><code>VehicleInterfaceError</code></a> is passed to the 'reject' callback in the promise.<table class="parameters"><tbody><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">zone</td><td class="prmType"><code><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptTrue"><span role="img" aria-label="True">✔</span></td><td class="prmDesc"></td></tr></tbody></table><div><em>Return type: </em><code>Promise</code></div></dd></dl></section>
+
+  <div class="example"><div class="example-title"><span>Example 2</span></div><pre class="example highlight prettyprint prettyprinted" style=""><span class="pln">vehicle</span><span class="pun">.</span><span class="pln">vehicleSpeed</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">().</span><span class="kwd">then</span><span class="pun">(</span><span class="pln">resolve</span><span class="pun">);</span><span class="pln">
+
+</span><span class="kwd">function</span><span class="pln"> resolve</span><span class="pun">(</span><span class="pln">data</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">// data is of type VehicleSpeed</span><span class="pln">
+  console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="str">"Speed: "</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> data</span><span class="pun">.</span><span class="pln">speed</span><span class="pun">);</span><span class="pln">
+  console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="str">"Time Stamp: "</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> data</span><span class="pun">.</span><span class="pln">timestamp</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></pre></div>
+</section>
+
+<!-- Interface VehicleConfigurationInterface -->
+<section id="vehicleconfigurationinterface-interface" typeof="bibo:Chapter" resource="#vehicleconfigurationinterface-interface" property="bibo:hasPart">
+  <!--OddPage--><h2 id="h-vehicleconfigurationinterface-interface" resource="#h-vehicleconfigurationinterface-interface"><span property="xhv:role" resource="xhv:heading"><span class="secno">12. </span><a href="#idl-def-VehicleConfigurationInterface" class="idlType"><code>VehicleConfigurationInterface</code></a> Interface</span></h2> <p>The <a href="#idl-def-VehicleConfigurationInterface" class="idlType"><code>VehicleConfigurationInterface</code></a>
+  interface is to be used to provide access to static vehicle information that never changes, e.g. external dimensions, identification or transmission type. </p>
+
+  <pre class="idl"><span class="idlInterface" id="idl-def-VehicleConfigurationInterface">[<span class="extAttr">NoInterfaceObject</span>]
+interface <span class="idlInterfaceID">VehicleConfigurationInterface</span> : <span class="idlSuperclass"><a href="#idl-def-VehicleInterface" class="idlType"><code>VehicleInterface</code></a></span> {
+};</span></pre>
+</section>
+<!-- Interface VehicleSignalInterface -->
+<section id="vehiclesignalinterface-interface" typeof="bibo:Chapter" resource="#vehiclesignalinterface-interface" property="bibo:hasPart">
+  <!--OddPage--><h2 id="h-vehiclesignalinterface-interface" resource="#h-vehiclesignalinterface-interface"><span property="xhv:role" resource="xhv:heading"><span class="secno">13. </span><a href="#idl-def-VehicleSignalInterface" class="idlType"><code>VehicleSignalInterface</code></a> Interface</span></h2> <p>The <a href="#idl-def-VehicleSignalInterface" class="idlType"><code>VehicleSignalInterface</code></a>
+  interface represents vehicle signals that, as a rule, and unlike vehicle configurations, can change values, either programmatically
+  (necessitating support for set method) or due to external events and occurrences, as reflected by subscription management.</p>
+
+  <pre class="idl"><span class="idlInterface" id="idl-def-VehicleSignalInterface">[<span class="extAttr">NoInterfaceObject</span>]
+interface <span class="idlInterfaceID">VehicleSignalInterface</span> : <span class="idlSuperclass"><a href="#idl-def-VehicleInterface" class="idlType"><code>VehicleInterface</code></a></span> {
+<span class="idlMethod">    <span class="idlMethType">Promise</span>        <span class="idlMethName"><a href="#widl-VehicleSignalInterface-set-Promise-object-value-Zone-zone">set</a></span> (<span class="idlParam"><span class="idlParamType">object</span> <span class="idlParamName">value</span></span>, <span class="idlParam">optional <span class="idlParamType"><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></span> <span class="idlParamName">zone</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">unsigned short</span> <span class="idlMethName"><a href="#widl-VehicleSignalInterface-subscribe-unsigned-short-VehicleInterfaceCallback-callback-Zone-zone-unsigned-long-period">subscribe</a></span> (<span class="idlParam"><span class="idlParamType"><a href="#idl-def-VehicleInterfaceCallback" class="idlType"><code>VehicleInterfaceCallback</code></a></span> <span class="idlParamName">callback</span></span>, <span class="idlParam">optional <span class="idlParamType"><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></span> <span class="idlParamName">zone</span></span>, <span class="idlParam">optional <span class="idlParamType">unsigned long</span> <span class="idlParamName">period</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">void</span>           <span class="idlMethName"><a href="#widl-VehicleSignalInterface-unsubscribe-void-unsigned-short-handle">unsubscribe</a></span> (<span class="idlParam"><span class="idlParamType">unsigned short</span> <span class="idlParamName">handle</span></span>);</span>
+};</span></pre><section id="methods-2" typeof="bibo:Chapter" resource="#methods-2" property="bibo:hasPart"><h3 id="h-methods-2" resource="#h-methods-2"><span property="xhv:role" resource="xhv:heading"><span class="secno">13.1 </span>Methods</span></h3><dl class="methods"><dt id="widl-VehicleSignalInterface-set-Promise-object-value-Zone-zone"><code>set</code></dt><dd><em class="rfc2119" title="MUST">MUST</em> return <a href="http://www.w3.org/TR/2013/WD-dom-20131107/#promises">Promise</a>.  The "resolve" callback indicates the set was successful.  No data is passed to resolve.  If there was an error,
+    "reject" will be called with a <a href="#idl-def-VehicleInterfaceError" class="idlType"><code>VehicleInterfaceError</code></a> object<table class="parameters"><tbody><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">value</td><td class="prmType"><code>object</code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr><tr><td class="prmName">zone</td><td class="prmType"><code><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptTrue"><span role="img" aria-label="True">✔</span></td><td class="prmDesc"></td></tr></tbody></table><div><em>Return type: </em><code>Promise</code></div></dd><dt id="widl-VehicleSignalInterface-subscribe-unsigned-short-VehicleInterfaceCallback-callback-Zone-zone-unsigned-long-period"><code>subscribe</code></dt><dd><em class="rfc2119" title="MUST">MUST</em> return handle to subscription or 0 if error. If 'period' is specified, 'callback' <em class="rfc2119" title="MUST">MUST</em> be invoked at most once per 'period' milliseconds.<table class="parameters"><tbody><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">callback</td><td class="prmType"><code><a href="#idl-def-VehicleInterfaceCallback" class="idlType"><code>VehicleInterfaceCallback</code></a></code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr><tr><td class="prmName">zone</td><td class="prmType"><code><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptTrue"><span role="img" aria-label="True">✔</span></td><td class="prmDesc"></td></tr><tr><td class="prmName">period</td><td class="prmType"><code>unsigned long</code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptTrue"><span role="img" aria-label="True">✔</span></td><td class="prmDesc"></td></tr></tbody></table><div><em>Return type: </em><code>unsigned short</code></div></dd><dt id="widl-VehicleSignalInterface-unsubscribe-void-unsigned-short-handle"><code>unsubscribe</code></dt><dd><em class="rfc2119" title="MUST">MUST</em> return void.  unsubscribes to value changes on this interface.<table class="parameters"><tbody><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">handle</td><td class="prmType"><code>unsigned short</code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr></tbody></table><div><em>Return type: </em><code>void</code></div></dd></dl></section>
+
+  <div class="example"><div class="example-title"><span>Example 3</span></div><pre class="example highlight prettyprint prettyprinted" style=""><span class="kwd">var</span><span class="pln"> zone </span><span class="pun">=</span><span class="pln"> </span><span class="typ">Zone</span><span class="pln">
+vehicle</span><span class="pun">.</span><span class="pln">door</span><span class="pun">.</span><span class="kwd">set</span><span class="pun">({</span><span class="str">"lock"</span><span class="pln"> </span><span class="pun">:</span><span class="pln"> </span><span class="kwd">true</span><span class="pun">},</span><span class="pln"> zone</span><span class="pun">.</span><span class="pln">driver</span><span class="pun">).</span><span class="kwd">then</span><span class="pun">(</span><span class="pln">resolve</span><span class="pun">,</span><span class="pln"> reject</span><span class="pun">);</span><span class="pln">
+
+</span><span class="kwd">function</span><span class="pln"> resolve</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="str">"Successfully set"</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="kwd">function</span><span class="pln"> reject</span><span class="pun">(</span><span class="pln">errorData</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="str">"Error occurred during set: "</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> errorData</span><span class="pun">.</span><span class="pln">message </span><span class="pun">+</span><span class="pln"> </span><span class="str">" code: "</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> errorData</span><span class="pun">.</span><span class="pln">error</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></pre></div>
+
+</section>
+<!-- Availability -->
+<section id="data-availability" typeof="bibo:Chapter" resource="#data-availability" property="bibo:hasPart">
+  <!--OddPage--><h2 id="h-data-availability" resource="#h-data-availability"><span property="xhv:role" resource="xhv:heading"><span class="secno">14. </span>Data Availability</span></h2>
+  <p>The availability API allows for developers to determine what attributes are available or not and if not, why.  It also allows for notifications when the availability
+   changes.</p>
+
+  <pre class="idl"><span class="idlEnum" id="idl-def-Availability">enum <span class="idlEnumID">Availability</span> {
+    "<a href="#idl-def-Availability.available" class="idlEnumItem">available</a>",
+    "<a href="#idl-def-Availability.not_supported" class="idlEnumItem">not_supported</a>",
+    "<a href="#idl-def-Availability.not_supported_yet" class="idlEnumItem">not_supported_yet</a>",
+    "<a href="#idl-def-Availability.not_supported_security_policy" class="idlEnumItem">not_supported_security_policy</a>",
+    "<a href="#idl-def-Availability.not_supported_business_policy" class="idlEnumItem">not_supported_business_policy</a>",
+    "<a href="#idl-def-Availability.not_supported_other" class="idlEnumItem">not_supported_other</a>"
+};</span></pre><table class="simple"><tbody><tr><th colspan="2">Enumeration description</th></tr><tr><td><code id="idl-def-Availability.available">available</code></td><td>data is available</td></tr><tr><td><code id="idl-def-Availability.not_supported">not_supported</code></td><td>not supported by this vehicle</td></tr><tr><td><code id="idl-def-Availability.not_supported_yet">not_supported_yet</code></td><td>not supported at this time, but may become supported later.</td></tr><tr><td><code id="idl-def-Availability.not_supported_security_policy">not_supported_security_policy</code></td><td>not supported because of security policy</td></tr><tr><td><code id="idl-def-Availability.not_supported_business_policy">not_supported_business_policy</code></td><td>not supported because of business policy</td></tr><tr><td><code id="idl-def-Availability.not_supported_other">not_supported_other</code></td><td>not supported for other reasons</td></tr></tbody></table>
+
+   <pre class="idl"><span class="idlInterface" id="idl-def-VehicleInterface-1">partial interface <span class="idlInterfaceID">VehicleInterface</span> {
+<span class="idlMethod">    <span class="idlMethType"><a href="#idl-def-Availability" class="idlType"><code>Availability</code></a></span> <span class="idlMethName"><a href="#widl-VehicleInterface-availableForRetrieval-Availability-DOMString-attributeName">availableForRetrieval</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">attributeName</span></span>);</span>
+<span class="idlAttribute">    readonly        attribute <span class="idlAttrType">boolean</span> <span class="idlAttrName"><a href="#widl-VehicleInterface-supported">supported</a></span>;</span>
+<span class="idlMethod">    <span class="idlMethType">short</span>        <span class="idlMethName"><a href="#widl-VehicleInterface-availabilityChangedListener-short-AvailableCallback-callback">availabilityChangedListener</a></span> (<span class="idlParam"><span class="idlParamType"><a href="#idl-def-AvailableCallback" class="idlType"><code>AvailableCallback</code></a></span> <span class="idlParamName">callback</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">void</span>         <span class="idlMethName"><a href="#widl-VehicleInterface-removeAvailabilityChangedListener-void-short-handle">removeAvailabilityChangedListener</a></span> (<span class="idlParam"><span class="idlParamType">short</span> <span class="idlParamName">handle</span></span>);</span>
+};</span></pre><section id="attributes-4" typeof="bibo:Chapter" resource="#attributes-4" property="bibo:hasPart"><h3 id="h-attributes-4" resource="#h-attributes-4"><span property="xhv:role" resource="xhv:heading"><span class="secno">14.1 </span>Attributes</span></h3><dl class="attributes"><dt id="widl-VehicleInterface-supported"><code>supported</code> of type <span class="idlAttrType">boolean</span>, readonly       </dt><dd><em class="rfc2119" title="MUST">MUST</em> return true if this attribute is supported and available</dd></dl></section><section id="methods-3" typeof="bibo:Chapter" resource="#methods-3" property="bibo:hasPart"><h3 id="h-methods-3" resource="#h-methods-3"><span property="xhv:role" resource="xhv:heading"><span class="secno">14.2 </span>Methods</span></h3><dl class="methods"><dt id="widl-VehicleInterface-availabilityChangedListener-short-AvailableCallback-callback"><code>availabilityChangedListener</code></dt><dd><em class="rfc2119" title="MUST">MUST</em> return handle for listener.<table class="parameters"><tbody><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">callback</td><td class="prmType"><code><a href="#idl-def-AvailableCallback" class="idlType"><code>AvailableCallback</code></a></code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr></tbody></table><div><em>Return type: </em><code>short</code></div></dd><dt id="widl-VehicleInterface-availableForRetrieval-Availability-DOMString-attributeName"><code>availableForRetrieval</code></dt><dd><em class="rfc2119" title="MUST">MUST</em> return whether this attribute is available for get() or not<table class="parameters"><tbody><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">attributeName</td><td class="prmType"><code>DOMString</code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr></tbody></table><div><em>Return type: </em><code><a href="#idl-def-Availability" class="idlType"><code>Availability</code></a></code></div></dd><dt id="widl-VehicleInterface-removeAvailabilityChangedListener-void-short-handle"><code>removeAvailabilityChangedListener</code></dt><dd><table class="parameters"><tbody><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">handle</td><td class="prmType"><code>short</code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr></tbody></table><div><em>Return type: </em><code>void</code></div></dd></dl></section>
+
+   <div class="example"><div class="example-title"><span>Example 4</span></div><pre class="example highlight prettyprint prettyprinted" style=""><span class="kwd">var</span><span class="pln"> speedAvailability </span><span class="pun">=</span><span class="pln"> vehicle</span><span class="pun">.</span><span class="pln">vehicleSpeed</span><span class="pun">.</span><span class="pln">availableForRetrieval</span><span class="pun">(</span><span class="str">"speed"</span><span class="pun">);</span><span class="pln">
+
+</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">speedAvailability </span><span class="pun">===</span><span class="pln"> </span><span class="str">"available"</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="str">"Vehicle speed available for use"</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+</span><span class="kwd">else</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="str">"Vehicle speed unavailable: "</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> speedAvailability</span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></pre></div>
+
+   <pre class="idl"><span class="idlInterface" id="idl-def-VehicleSignalInterface-1">partial interface <span class="idlInterfaceID">VehicleSignalInterface</span> {
+<span class="idlMethod">    <span class="idlMethType"><a href="#idl-def-Availability" class="idlType"><code>Availability</code></a></span> <span class="idlMethName"><a href="#widl-VehicleSignalInterface-availableForSubscription-Availability-DOMString-attributeName">availableForSubscription</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">attributeName</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType"><a href="#idl-def-Availability" class="idlType"><code>Availability</code></a></span> <span class="idlMethName"><a href="#widl-VehicleSignalInterface-availableForSetting-Availability-DOMString-attributeName">availableForSetting</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">attributeName</span></span>);</span>
+};</span></pre><section id="methods-4" typeof="bibo:Chapter" resource="#methods-4" property="bibo:hasPart"><h3 id="h-methods-4" resource="#h-methods-4"><span property="xhv:role" resource="xhv:heading"><span class="secno">14.3 </span>Methods</span></h3><dl class="methods"><dt id="widl-VehicleSignalInterface-availableForSetting-Availability-DOMString-attributeName"><code>availableForSetting</code></dt><dd><em class="rfc2119" title="MUST">MUST</em> return whether this attribute is available for set() or not<table class="parameters"><tbody><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">attributeName</td><td class="prmType"><code>DOMString</code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr></tbody></table><div><em>Return type: </em><code><a href="#idl-def-Availability" class="idlType"><code>Availability</code></a></code></div></dd><dt id="widl-VehicleSignalInterface-availableForSubscription-Availability-DOMString-attributeName"><code>availableForSubscription</code></dt><dd><em class="rfc2119" title="MUST">MUST</em> return whether this attribute is available for subscribe() or not<table class="parameters"><tbody><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">attributeName</td><td class="prmType"><code>DOMString</code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr></tbody></table><div><em>Return type: </em><code><a href="#idl-def-Availability" class="idlType"><code>Availability</code></a></code></div></dd></dl></section>
+
+   <div class="example"><div class="example-title"><span>Example 5</span></div><pre class="example highlight prettyprint prettyprinted" style=""><span class="kwd">var</span><span class="pln"> speedSubscribable </span><span class="pun">=</span><span class="pln"> vehicle</span><span class="pun">.</span><span class="pln">vehicleSpeed</span><span class="pun">.</span><span class="pln">availableForSubscription</span><span class="pun">(</span><span class="str">"speed"</span><span class="pun">)</span><span class="pln"> </span><span class="pun">===</span><span class="pln"> </span><span class="str">"available"</span><span class="pun">;</span><span class="pln">
+
+vehicle</span><span class="pun">.</span><span class="pln">vehicleSpeed</span><span class="pun">.</span><span class="pln">availabilityChangedListener</span><span class="pun">(</span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">available</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  speedSubscribable </span><span class="pun">=</span><span class="pln"> available </span><span class="pun">===</span><span class="pln"> </span><span class="str">"available"</span><span class="pun">;</span><span class="pln">
+  checkVehicleSpeed</span><span class="pun">();</span><span class="pln">
+</span><span class="pun">});</span><span class="pln">
+
+</span><span class="kwd">function</span><span class="pln"> checkVehicleSpeed</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">speedSubscribable</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    vehicle</span><span class="pun">.</span><span class="pln">vehicleSpeed</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">().</span><span class="kwd">then</span><span class="pun">(</span><span class="pln">callback</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></pre></div>
+
+</section>
+<!-- History -->
+<section id="history" typeof="bibo:Chapter" resource="#history" property="bibo:hasPart">
+<!--OddPage--><h2 id="h-history" resource="#h-history"><span property="xhv:role" resource="xhv:heading"><span class="secno">15. </span>History</span></h2>
+   <p> The History API provides a way for applications to access logged data from the vehicle.  What data is available and how much is up to the implementation.  This section is <em class="rfc2119" title="OPTIONAL">OPTIONAL</em>.</p>
+   <pre class="idl"><span class="idlInterface" id="idl-def-HistoryItem">interface <span class="idlInterfaceID">HistoryItem</span> {
+<span class="idlAttribute">    readonly        attribute <span class="idlAttrType">any</span>          <span class="idlAttrName"><a href="#widl-HistoryItem-value">value</a></span>;</span>
+<span class="idlAttribute">    readonly        attribute <span class="idlAttrType">DOMTimeStamp</span> <span class="idlAttrName"><a href="#widl-HistoryItem-timestamp">timestamp</a></span>;</span>
+};</span></pre><section id="attributes-5" typeof="bibo:Chapter" resource="#attributes-5" property="bibo:hasPart"><h3 id="h-attributes-5" resource="#h-attributes-5"><span property="xhv:role" resource="xhv:heading"><span class="secno">15.1 </span>Attributes</span></h3><dl class="attributes"><dt id="widl-HistoryItem-timestamp"><code>timestamp</code> of type <span class="idlAttrType">DOMTimeStamp</span>, readonly       </dt><dd><em class="rfc2119" title="MUST">MUST</em> return time in which 'value' was read by the system.</dd><dt id="widl-HistoryItem-value"><code>value</code> of type <span class="idlAttrType">any</span>, readonly       </dt><dd><em class="rfc2119" title="MUST">MUST</em> return value.  This is ANY Vehicle Data Type.</dd></dl></section>
+   <pre class="idl"><span class="idlInterface" id="idl-def-VehicleInterface-2">partial interface <span class="idlInterfaceID">VehicleInterface</span> {
+<span class="idlAttribute">    readonly        attribute <span class="idlAttrType"><a href="#idl-def-History" class="idlType"><code>History</code></a>?</span> <span class="idlAttrName"><a href="#widl-VehicleInterface-history">history</a></span>;</span>
+};</span></pre><section id="attributes-6" typeof="bibo:Chapter" resource="#attributes-6" property="bibo:hasPart"><h3 id="h-attributes-6" resource="#h-attributes-6"><span property="xhv:role" resource="xhv:heading"><span class="secno">15.2 </span>Attributes</span></h3><dl class="attributes"><dt id="widl-VehicleInterface-history"><code>history</code> of type <span class="idlAttrType"><a href="#idl-def-History" class="idlType"><code>History</code></a></span>, readonly       , nullable</dt><dd><em class="rfc2119" title="MUST">MUST</em> return History interface if the platform supports the History API</dd></dl></section>
+   <pre class="idl"><span class="idlInterface" id="idl-def-History">interface <span class="idlInterfaceID">History</span> {
+<span class="idlMethod">    <span class="idlMethType">Promise</span> <span class="idlMethName"><a href="#widl-History-get-Promise-Date-begin-Date-end-Zone-zone">get</a></span> (<span class="idlParam"><span class="idlParamType">Date</span> <span class="idlParamName">begin</span></span>, <span class="idlParam"><span class="idlParamType">Date</span> <span class="idlParamName">end</span></span>, <span class="idlParam">optional <span class="idlParamType"><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></span> <span class="idlParamName">zone</span></span>);</span>
+<span class="idlAttribute">    readonly        attribute <span class="idlAttrType">boolean</span> <span class="idlAttrName"><a href="#widl-History-isLogged">isLogged</a></span>;</span>
+<span class="idlAttribute">    readonly        attribute <span class="idlAttrType">Date?</span>   <span class="idlAttrName"><a href="#widl-History-from">from</a></span>;</span>
+<span class="idlAttribute">    readonly        attribute <span class="idlAttrType">Date?</span>   <span class="idlAttrName"><a href="#widl-History-to">to</a></span>;</span>
+};</span></pre><section id="attributes-7" typeof="bibo:Chapter" resource="#attributes-7" property="bibo:hasPart"><h3 id="h-attributes-7" resource="#h-attributes-7"><span property="xhv:role" resource="xhv:heading"><span class="secno">15.3 </span>Attributes</span></h3><dl class="attributes"><dt id="widl-History-from"><code>from</code> of type <span class="idlAttrType">Date</span>, readonly       , nullable</dt><dd><em class="rfc2119" title="MUST">MUST</em> return Date in which logging started from.  Returns null if isLogged is false.</dd><dt id="widl-History-isLogged"><code>isLogged</code> of type <span class="idlAttrType">boolean</span>, readonly       </dt><dd><em class="rfc2119" title="MUST">MUST</em> return true if this attribute is logged</dd><dt id="widl-History-to"><code>to</code> of type <span class="idlAttrType">Date</span>, readonly       , nullable</dt><dd><em class="rfc2119" title="MUST">MUST</em> return Date in which logging of this attribute ends. Returns null if isLogged is false.</dd></dl></section><section id="methods-5" typeof="bibo:Chapter" resource="#methods-5" property="bibo:hasPart"><h3 id="h-methods-5" resource="#h-methods-5"><span property="xhv:role" resource="xhv:heading"><span class="secno">15.4 </span>Methods</span></h3><dl class="methods"><dt id="widl-History-get-Promise-Date-begin-Date-end-Zone-zone"><code>get</code></dt><dd><em class="rfc2119" title="MUST">MUST</em> return Promise.  The "resolve" callback in the promise is used to pass an array of <a href="#idl-def-HistoryItem" class="idlType"><code>HistoryItem</code></a>s.<table class="parameters"><tbody><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">begin</td><td class="prmType"><code>Date</code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr><tr><td class="prmName">end</td><td class="prmType"><code>Date</code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr><tr><td class="prmName">zone</td><td class="prmType"><code><a href="#idl-def-Zone" class="idlType"><code>Zone</code></a></code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptTrue"><span role="img" aria-label="True">✔</span></td><td class="prmDesc"></td></tr></tbody></table><div><em>Return type: </em><code>Promise</code></div></dd></dl></section>
+
+   <div class="example"><div class="example-title"><span>Example 6</span></div><pre class="example highlight prettyprint prettyprinted" style=""><span class="com">// check if there is data being logged for vehicleSpeed</span><span class="pln">
+</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">vehicle</span><span class="pun">.</span><span class="pln">vehicleSpeed</span><span class="pun">.</span><span class="pln">history</span><span class="pun">.</span><span class="pln">isLogged</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">// get all vehicleSpeed since it was first logged</span><span class="pln">
+  vehicle</span><span class="pun">.</span><span class="pln">vehicleSpeed</span><span class="pun">.</span><span class="pln">history</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">(</span><span class="pln">
+    vehicle</span><span class="pun">.</span><span class="pln">vehicleSpeed</span><span class="pun">.</span><span class="pln">history</span><span class="pun">.</span><span class="kwd">from</span><span class="pun">,</span><span class="pln">
+    vehicle</span><span class="pun">.</span><span class="pln">vehicleSpeed</span><span class="pun">.</span><span class="pln">history</span><span class="pun">.</span><span class="pln">to
+  </span><span class="pun">).</span><span class="kwd">then</span><span class="pun">(</span><span class="kwd">function</span><span class="pln"> </span><span class="pun">(</span><span class="pln">data</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    console</span><span class="pun">.</span><span class="pln">log</span><span class="pun">(</span><span class="pln">data</span><span class="pun">.</span><span class="pln">length</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">}</span></pre></div>
+
+</section>
+
+<section class="use-cases" id="use-cases" typeof="bibo:Chapter" resource="#use-cases" property="bibo:hasPart">
+  <!--OddPage--><h2 id="h-use-cases" resource="#h-use-cases"><span property="xhv:role" resource="xhv:heading"><span class="secno">16. </span>Use-Cases</span></h2>
+
+    <section typeof="bibo:Chapter" resource="" property="bibo:hasPart">
+        <p>The primary purpose of this specification is to provide web developers the ability to access and set vehicle
+        information through a simple common set of operations including get, set, subscribe, and unsubscribe.  Thus
+        normative use cases pertain to this access and do not cover higher application of business level use cases.</p>
+        <section typeof="bibo:Chapter" resource="#get" property="bibo:hasPart">
+            <h4 id="get" resource="#get"><span property="xhv:role" resource="xhv:heading">Get </span></h4>
+            Get a single value once from the vehicle.
+        </section>
+        <section typeof="bibo:Chapter" resource="#set" property="bibo:hasPart">
+            <h4 id="set" resource="#set"><span property="xhv:role" resource="xhv:heading">Set </span></h4>
+            Set a single value once in the vehicle.
+        </section>
+        <section typeof="bibo:Chapter" resource="#subscribe" property="bibo:hasPart">
+            <h4 id="subscribe" resource="#subscribe"><span property="xhv:role" resource="xhv:heading">Subscribe </span></h4>
+            Subscribe to single value until unsubscribed.
+        </section>
+        <section typeof="bibo:Chapter" resource="#unsubscribe" property="bibo:hasPart">
+            <h4 id="unsubscribe" resource="#unsubscribe"><span property="xhv:role" resource="xhv:heading">Unsubscribe</span></h4>
+            Unsubscribe to single value.
+        </section>
+    </section>
+</section>
+
+
+
+<section id="references" class="appendix" typeof="bibo:Chapter" resource="#references" property="bibo:hasPart"><!--OddPage--><h2 id="h-references" resource="#h-references"><span property="xhv:role" resource="xhv:heading"><span class="secno">A. </span>References</span></h2><section id="normative-references" typeof="bibo:Chapter" resource="#normative-references" property="bibo:hasPart"><h3 id="h-normative-references" resource="#h-normative-references"><span property="xhv:role" resource="xhv:heading"><span class="secno">A.1 </span>Normative references</span></h3><dl class="bibliography" resource=""><dt id="bib-RFC2119">[RFC2119]</dt><dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119" property="dc:requires"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119" property="dc:requires">https://tools.ietf.org/html/rfc2119</a>
+</dd><dt id="bib-WEBIDL">[WEBIDL]</dt><dd>Cameron McCormack; Boris Zbarsky. <a href="http://www.w3.org/TR/WebIDL-1/" property="dc:requires"><cite>WebIDL Level 1</cite></a>. 4 August 2015. W3C Working Draft. URL: <a href="http://www.w3.org/TR/WebIDL-1/" property="dc:requires">http://www.w3.org/TR/WebIDL-1/</a>
+</dd></dl></section></section></body></html>
